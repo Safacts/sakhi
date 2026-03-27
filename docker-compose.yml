@@ -7,9 +7,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3005:5173"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
     environment:
       - VITE_API_URL=https://sakhi.jnwn.xyz/api
     networks:
