@@ -22,46 +22,52 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-64 bg-zinc-900/50 backdrop-blur-xl border-r border-white/5 flex flex-col h-screen sticky top-0">
-      <div className="p-6">
-        <h1 className="text-2xl font-black tracking-tighter text-white">SAKHI<span className="text-blue-500">.</span></h1>
+    <aside className="w-72 bg-[#080808]/80 backdrop-blur-3xl border-r border-white/5 flex flex-col h-screen sticky top-0 relative overflow-hidden">
+      {/* Sidebar Accent Glow */}
+      <div className="absolute -top-24 -left-24 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl opacity-50"></div>
+      
+      <div className="p-10">
+        <h1 className="text-3xl font-black tracking-tighter text-white">SAKHI<span className="text-blue-500">.</span></h1>
+        <p className="text-[10px] font-black text-zinc-700 uppercase tracking-[0.4em] mt-2">Core Interface</p>
       </div>
 
-      <nav className="flex-grow px-4 space-y-2">
+      <nav className="flex-grow px-6 space-y-3">
         {navItems.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) => `
-              flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200
+              flex items-center gap-4 px-6 py-4 rounded-[20px] transition-all duration-300 group
               ${isActive 
-                ? 'bg-blue-600/10 text-blue-400 border border-blue-500/20' 
-                : 'text-zinc-500 hover:text-white hover:bg-white/5'}
+                ? 'bg-blue-600 text-white shadow-[0_15px_30px_-10px_rgba(59,130,246,0.3)]' 
+                : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/5'}
             `}
           >
-            <item.icon size={20} />
-            <span className="font-semibold text-sm">{item.label}</span>
+            <item.icon size={22} className={`${isActive ? 'scale-110' : 'group-hover:scale-110 transition-transform'}`} />
+            <span className="font-bold text-sm tracking-tight">{item.label}</span>
           </NavLink>
         ))}
       </nav>
 
-      <div className="p-4 border-t border-white/5">
-        <div className="flex items-center gap-3 p-3 rounded-2xl bg-white/5 mb-4">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold">
-            {user?.name?.[0] || 'U'}
-          </div>
-          <div className="overflow-hidden">
-            <p className="text-sm font-bold text-white truncate">{user?.name}</p>
-            <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">{user?.role}</p>
+      <div className="p-6">
+        <div className="glass-card rounded-[32px] p-5 mb-6 bg-gradient-to-tr from-white/5 to-transparent border-white/10">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center text-white font-black text-lg shadow-lg">
+              {user?.name?.[0] || 'U'}
+            </div>
+            <div className="overflow-hidden">
+              <p className="text-[13px] font-black text-white truncate">{user?.name}</p>
+              <p className="text-[9px] text-blue-500 font-black uppercase tracking-widest mt-0.5">{user?.role}</p>
+            </div>
           </div>
         </div>
 
         <button 
           onClick={logout}
-          className="w-full flex items-center gap-3 px-4 py-3 text-zinc-500 hover:text-red-400 hover:bg-red-500/5 rounded-xl transition-all"
+          className="w-full flex items-center justify-center gap-3 py-4 text-zinc-600 hover:text-red-400 font-bold text-xs uppercase tracking-widest transition-all"
         >
-          <LogOut size={18} />
-          <span className="font-bold text-sm">Session Terminate</span>
+          <LogOut size={16} />
+          Terminate Session
         </button>
       </div>
     </aside>

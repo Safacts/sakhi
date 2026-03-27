@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import AuthCallback from './pages/AuthCallback';
 import { useAuth } from './context/AuthContext';
 import DashboardLayout from './components/DashboardLayout';
+import { Sparkles } from 'lucide-react';
 
 // Modules
 import ChatInterface from './components/ChatInterface';
@@ -9,41 +10,83 @@ import ChatInterface from './components/ChatInterface';
 const DashboardHome = () => {
   const { user } = useAuth();
   return (
-    <div className="p-8 space-y-8">
-      <header>
-        <h2 className="text-3xl font-black text-white">Welcome, {user?.name?.split(' ')[0]}</h2>
-        <p className="text-zinc-500 font-medium">Your academic overview for today.</p>
+    <div className="p-10 space-y-12 max-w-7xl mx-auto">
+      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        <div>
+           <h2 className="text-4xl font-black text-white tracking-tighter mb-2">
+             Welcome back, <span className="text-blue-500">{user?.name?.split(' ')[0]}</span>
+           </h2>
+           <p className="text-zinc-500 font-bold uppercase tracking-[0.2em] text-[10px]">Aacharya Node Session ID: {Math.random().toString(36).substring(7).toUpperCase()}</p>
+        </div>
+        <div className="flex gap-4">
+           <div className="glass-card px-6 py-3 rounded-2xl flex items-center gap-3">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
+              <span className="text-xs font-black uppercase tracking-widest text-zinc-400">Sync Active</span>
+           </div>
+        </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-2 glass-card rounded-3xl p-8">
-           <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-             <span className="w-2 h-6 bg-blue-500 rounded-full"></span>
-             Active Courses
-           </h3>
-           <div className="flex items-center justify-center py-12 text-zinc-600 border-2 border-dashed border-white/5 rounded-2xl">
-              No active courses tracked yet.
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-8">
+           <div className="glass-card rounded-[40px] p-10 bg-gradient-to-br from-blue-600/5 to-transparent">
+              <h3 className="text-2xl font-black mb-8 flex items-center gap-3 italic">
+                <span className="w-1.5 h-6 bg-blue-500 rounded-full"></span>
+                Academic Pulse
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                 {[
+                   { label: 'Engineering Physics', grade: 'A+', color: 'text-blue-400', bg: 'bg-blue-400/10' },
+                   { label: 'Network Architecture', grade: 'B', color: 'text-purple-400', bg: 'bg-purple-400/10' },
+                   { label: 'Data Ethics', grade: 'A', color: 'text-green-400', bg: 'bg-green-400/10' },
+                   { label: 'Applied AI', grade: 'A', color: 'text-orange-400', bg: 'bg-orange-400/10' }
+                 ].map((course) => (
+                   <div key={course.label} className="p-5 rounded-3xl bg-white/5 border border-white/5 flex justify-between items-center group hover:bg-white/10 transition-all cursor-pointer">
+                      <span className="font-bold text-zinc-300">{course.label}</span>
+                      <span className={`w-10 h-10 rounded-xl ${course.bg} ${course.color} flex items-center justify-center font-black text-sm`}>{course.grade}</span>
+                   </div>
+                 ))}
+              </div>
+           </div>
+
+           <div className="glass-card rounded-[40px] p-10 bg-gradient-to-br from-purple-600/5 to-transparent">
+              <h3 className="text-xl font-bold mb-4">Upcoming Milestones</h3>
+              <div className="space-y-4 pt-4">
+                 <div className="flex gap-6 items-center">
+                    <div className="text-center w-12 shrink-0">
+                       <p className="text-blue-500 font-black text-xl leading-none">28</p>
+                       <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">March</p>
+                    </div>
+                    <div className="flex-grow">
+                       <p className="font-bold text-white">System Architecture Submission</p>
+                       <p className="text-xs text-zinc-500">Node Sync Required // 23:59 IST</p>
+                    </div>
+                    <div className="w-24 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                       <div className="h-full bg-blue-600 w-3/4"></div>
+                    </div>
+                 </div>
+              </div>
            </div>
         </div>
 
-        <div className="glass-card rounded-3xl p-8 flex flex-col justify-center text-center">
-            <div className="w-24 h-24 rounded-full border-4 border-blue-500/20 border-t-blue-500 mx-auto flex items-center justify-center mb-4">
-              <span className="text-2xl font-black">--%</span>
+        <div className="space-y-8">
+          <div className="glass-card rounded-[40px] p-10 text-center flex flex-col items-center justify-center aspect-square relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-b from-blue-600/10 to-transparent"></div>
+            <div className="relative z-10">
+              <div className="w-32 h-32 rounded-full border-[8px] border-blue-500/10 border-t-blue-500 mx-auto flex items-center justify-center mb-6 shadow-[0_0_60px_rgba(59,130,246,0.2)]">
+                <span className="text-4xl font-black text-white">88<span className="text-blue-500 text-xl">%</span></span>
+              </div>
+              <h4 className="text-lg font-black text-white tracking-tight">Average Attendance</h4>
+              <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-2 px-4 py-1.5 bg-white/5 rounded-full inline-block">Sync with Vitarn v2.4</p>
             </div>
-            <h4 className="font-bold text-white">Avg. Attendance</h4>
-            <p className="text-xs text-zinc-500 uppercase tracking-widest mt-1">Sync Required</p>
+          </div>
+          
+          <div className="glass-card rounded-[40px] p-8 bg-blue-600 group hover:bg-blue-500 cursor-pointer overflow-hidden relative transition-all shadow-[0_30px_60px_-15px_rgba(59,130,246,0.3)]">
+             <Bot className="absolute -right-4 -bottom-4 w-32 h-32 opacity-10 group-hover:scale-110 transition-transform" />
+             <h3 className="text-xl font-black text-white mb-2 relative z-10">Need Assistance?</h3>
+             <p className="text-white/70 text-sm font-medium relative z-10 mb-6">Sakhi AI is synced with your course syllabus.</p>
+             <button className="px-6 py-3 bg-white text-blue-600 rounded-2xl font-black text-sm relative z-10">Enter Terminal</button>
+          </div>
         </div>
-      </div>
-      
-      <div className="glass-card rounded-3xl p-1 bg-gradient-to-br from-blue-600/20 to-purple-600/20">
-         <div className="bg-zinc-950/90 rounded-[22px] p-8">
-            <h3 className="text-xl font-bold mb-2">Agentic Sakhi Status</h3>
-            <p className="text-zinc-400 text-sm mb-6">Your personal AI agent is online and synced with Aacharya Hub.</p>
-            <div className="flex gap-4">
-               <span className="px-4 py-1.5 bg-green-500/10 text-green-400 text-xs font-bold rounded-full border border-green-500/20">Ollama/Llama 3 Active</span>
-               <span className="px-4 py-1.5 bg-blue-500/10 text-blue-400 text-xs font-bold rounded-full border border-blue-500/20">RAG Context Synced</span>
-            </div>
-         </div>
       </div>
     </div>
   );
