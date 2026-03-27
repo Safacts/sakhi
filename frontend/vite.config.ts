@@ -9,9 +9,7 @@ export default defineConfig({
     port: 5173,
     allowedHosts: ["sakhi.jnwn.xyz"],
     hmr: {
-      host: "sakhi.jnwn.xyz",
-      protocol: "wss",
-      port: 443
+      clientPort: 443
     }
   }
 })

@@ -14,7 +14,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<any | null>(null);
 
   const login = () => {
-    window.location.href = 'http://localhost:8000/api/auth/login';
+    const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    window.location.href = `${apiBase}/auth/login`;
   };
 
   const logout = () => {
