@@ -3,5 +3,6 @@ uvicorn
 pydantic
 pydantic-settings
 requests
+httpx
 python-multipart
 # molt-agent # Add when ready
