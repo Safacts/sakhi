@@ -95,6 +95,7 @@ const DashboardHome = () => {
 
 function App() {
   const { token, isLoading, login, logout } = useAuth();
+  console.log('[Sakhi App] Auth State:', { token: !!token, isLoading, login: !!login });
 
   if (isLoading) {
     return (
