@@ -2,72 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: dark;
-  color: rgba(255, 255, 255, 0.95);
-  background-color: #050505;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  margin: 0;
-  background: radial-gradient(circle at 50% -20%, #1e3a8a 0%, #050505 60%);
-  min-height: 100vh;
-}
-
-/* Sakhi Blueprint Grid */
-.sakhi-grid {
-  background-size: 60px 60px;
+/* Neural Network Grid */
+.neural-grid {
+  background-size: 100px 100px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+  mask-image: radial-gradient(circle at center, black, transparent 80%);
 }
 
-.sakhi-grid::after {
+.neural-grid::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent, #050505 80%);
+  background-image: radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.1), transparent 50%);
+  animation: pulse-slow 8s ease-in-out infinite;
 }
 
-/* Neo-Glassmorphism */
-.glass-card {
-  @apply bg-zinc-900/40 backdrop-blur-2xl border border-white/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.8)];
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
 }
 
-.glass-card:hover {
-  @apply border-white/10 bg-zinc-900/60 shadow-[0_8px_48px_0_rgba(59,130,246,0.1)];
-  transform: translateY(-2px);
+.cyber-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  opacity: 0.4;
+  animation: float 20s ease-in-out infinite;
 }
 
-.vibrant-shimmer {
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(100px, -50px); }
+  66% { transform: translate(-50px, 80px); }
+}
+
+/* Frosted Glass - Neo-Cyber Edition */
+.cyber-glass {
+  @apply bg-black/40 backdrop-blur-[12px] border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)];
   position: relative;
   overflow: hidden;
 }
 
-.vibrant-shimmer::before {
+.cyber-glass::before {
   content: "";
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: conic-gradient(from 0deg, transparent, rgba(59,130,246,0.1), transparent 30%);
-  animation: rotate 10s linear infinite;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent 40%);
+  z-index: -1;
 }
 
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.glow-text {
+  text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+.neo-cta {
+  @apply relative overflow-hidden transition-all duration-500 bg-white text-black font-black uppercase tracking-widest;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.neo-cta:hover {
+  box-shadow: 0 0 30px rgba(0, 255, 200, 0.4);
+  @apply -translate-y-1;
 }
 
 /* Custom Scrollbar */

@@ -3,6 +3,7 @@ import AuthCallback from './pages/AuthCallback';
 import { useAuth } from './context/AuthContext';
 import DashboardLayout from './components/DashboardLayout';
 import { Sparkles, Bot } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Modules
 import ChatInterface from './components/ChatInterface';
@@ -124,41 +125,73 @@ function App() {
 
       <Route path="/login" element={
         <div className="min-h-screen bg-[#050505] flex items-center justify-center p-6 relative overflow-hidden">
-          {/* Animated Background Artifacts */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[120px] animate-pulse"></div>
-          <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[100px] animate-bounce [animation-duration:20s]"></div>
+          {/* Neural Network Background */}
+          <div className="absolute inset-0 neural-grid"></div>
           
-          <div className="max-w-xl w-full glass-card rounded-[48px] p-2 bg-gradient-to-br from-white/10 to-transparent relative z-10">
-            <div className="bg-[#0a0a0a]/90 rounded-[46px] p-16 text-center">
-              <div className="mb-12 inline-flex items-center justify-center w-20 h-20 bg-blue-600 rounded-3xl shadow-[0_0_40px_rgba(59,130,246,0.5)] rotate-12">
-                 <Sparkles className="text-white w-10 h-10" />
-              </div>
+          {/* Floating Cyber Orbs */}
+          <div className="cyber-orb bg-blue-600/20 w-[600px] h-[600px] -top-20 -left-20"></div>
+          <div className="cyber-orb bg-purple-600/10 w-[400px] h-[400px] bottom-0 right-0 animate-pulse [animation-duration:15s]"></div>
+          <div className="cyber-orb bg-cyan-600/10 w-[300px] h-[300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="max-w-xl w-full cyber-glass rounded-[48px] p-2 relative z-10"
+          >
+            <div className="bg-[#0a0a0a]/80 backdrop-blur-xl rounded-[46px] p-16 text-center border border-white/5">
+              <motion.div 
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+                className="mb-12 inline-flex items-center justify-center w-24 h-24 bg-blue-600 rounded-[32px] shadow-[0_0_50px_rgba(59,130,246,0.3)] relative"
+              >
+                 <Sparkles className="text-white w-12 h-12" />
+                 <div className="absolute inset-0 bg-blue-400/20 rounded-[32px] animate-ping opacity-50"></div>
+              </motion.div>
               
-              <h1 className="text-6xl font-black text-white mb-6 tracking-tightest leading-none">
+              <h1 className="text-7xl font-black text-white mb-6 tracking-tightest leading-none glow-text">
                 SAKHI<span className="text-blue-500">.</span>
               </h1>
+              
+              <div className="h-px w-24 bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto mb-8 opacity-50"></div>
+              
               <p className="text-zinc-400 text-lg font-medium mb-12 max-w-sm mx-auto leading-relaxed">
-                The next generation of <span className="text-white">Agentic Academic Intelligence</span> for Aacharya Hub.
+                The Most Powerful <span className="text-white">Academic Intelligence</span> Node in the Aacharya Ecosystem.
               </p>
               
-              <button 
+              <motion.button 
+                whileHover={{ scale: 1.05, boxShadow: "0px 0px 30px rgba(0, 255, 200, 0.4)" }}
+                whileTap={{ scale: 0.98 }}
                 onClick={login}
-                className="group relative w-full py-6 bg-white text-black rounded-3xl font-black text-xl hover:scale-[1.02] transition-all overflow-hidden"
+                className="neo-cta w-full py-6 rounded-[24px] text-xl isolate"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                Launch Assistant
-              </button>
+                <span className="relative z-10 flex items-center justify-center gap-3">
+                  Enter Terminal
+                  <motion.div
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ repeat: Infinity, duration: 1.5 }}
+                  >
+                    →
+                  </motion.div>
+                </span>
+              </motion.button>
               
-              <div className="mt-12 flex items-center justify-center gap-6 opacity-40 grayscale group-hover:grayscale-0 transition-all">
-                 <div className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500">Secure OIDC</div>
-                 <div className="w-1 h-1 bg-zinc-800 rounded-full"></div>
-                 <div className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500">PKCE S256</div>
+              <div className="mt-16 flex items-center justify-center gap-8 text-[9px] font-black text-zinc-600 uppercase tracking-[0.4em]">
+                 <div className="flex items-center gap-2">
+                    <div className="w-1 h-1 bg-blue-500 rounded-full"></div>
+                    Secure OIDC
+                 </div>
+                 <div className="flex items-center gap-2">
+                    <div className="w-1 h-1 bg-purple-500 rounded-full"></div>
+                    PKCE S256
+                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
           
-          <div className="absolute bottom-8 text-zinc-700 text-[10px] font-black uppercase tracking-[0.5em]">
-            Authorized JNWN Node // Terminal Session 2.0
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-zinc-800 text-[9px] font-black uppercase tracking-[0.6em]">
+            Authorized JNWN Terminal // Session 2.0.1
           </div>
         </div>
       } />
