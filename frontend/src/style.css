@@ -8,8 +8,8 @@
   font-weight: 400;
 
   color-scheme: dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #000;
+  color: rgba(255, 255, 255, 0.95);
+  background-color: #050505;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,23 +19,55 @@
 
 body {
   margin: 0;
+  background: radial-gradient(circle at 50% -20%, #1e3a8a 0%, #050505 60%);
+  min-height: 100vh;
 }
 
 /* Sakhi Blueprint Grid */
 .sakhi-grid {
-  background-size: 40px 40px;
+  background-size: 60px 60px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
-/* Glassmorphism effects */
-.glass-panel {
-  @apply bg-white/5 backdrop-blur-xl border border-white/10;
+.sakhi-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, #050505 80%);
 }
 
+/* Neo-Glassmorphism */
 .glass-card {
-  @apply bg-zinc-900/50 backdrop-blur-md border border-white/5 hover:border-white/10 transition-all duration-300;
+  @apply bg-zinc-900/40 backdrop-blur-2xl border border-white/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.8)];
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  @apply border-white/10 bg-zinc-900/60 shadow-[0_8px_48px_0_rgba(59,130,246,0.1)];
+  transform: translateY(-2px);
+}
+
+.vibrant-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.vibrant-shimmer::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(59,130,246,0.1), transparent 30%);
+  animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Custom Scrollbar */
