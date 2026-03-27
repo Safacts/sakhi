@@ -94,7 +94,7 @@ const DashboardHome = () => {
 };
 
 function App() {
-  const { token, isLoading } = useAuth();
+  const { token, isLoading, login, logout } = useAuth();
 
   if (isLoading) {
     return (
