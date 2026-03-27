@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import AuthCallback from './pages/AuthCallback';
 import { useAuth } from './context/AuthContext';
 import DashboardLayout from './components/DashboardLayout';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Bot } from 'lucide-react';
 
 // Modules
 import ChatInterface from './components/ChatInterface';
