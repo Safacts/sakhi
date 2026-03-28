@@ -13,7 +13,7 @@ class Settings(BaseSettings):
         env_file = ".env"
 
 settings = Settings()
-router = APIRouter(prefix="/api/auth", tags=["auth"])
+router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.get("/config")
 async def get_auth_config():

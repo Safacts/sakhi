@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Bot, Sparkles, Loader2, User, Globe, Shield } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
@@ -41,7 +41,7 @@ const Terminal = () => {
     setIsLoading(true);
 
     try {
-      const resp = await fetch(`${API_BASE}/api/chat/ask`, {
+      const resp = await fetch(`${API_BASE}/chat/ask`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
