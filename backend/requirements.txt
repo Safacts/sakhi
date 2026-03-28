@@ -5,4 +5,5 @@ pydantic-settings
 requests
 httpx
 python-multipart
+python-dotenv
 # molt-agent # Add when ready

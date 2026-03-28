@@ -1,9 +1,10 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AuthCallback from './pages/AuthCallback';
+import Terminal from './pages/Terminal';
 import { useAuth } from './context/AuthContext';
 import DashboardLayout from './components/DashboardLayout';
 import { Sparkles, Bot } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 // Modules
 import ChatInterface from './components/ChatInterface';
@@ -85,7 +86,12 @@ const DashboardHome = () => {
              <Bot className="absolute -right-4 -bottom-4 w-32 h-32 opacity-10 group-hover:scale-110 transition-transform" />
              <h3 className="text-xl font-black text-white mb-2 relative z-10">Need Assistance?</h3>
              <p className="text-white/70 text-sm font-medium relative z-10 mb-6">Sakhi AI is synced with your course syllabus.</p>
-             <button className="px-6 py-3 bg-white text-blue-600 rounded-2xl font-black text-sm relative z-10">Enter Terminal</button>
+             <button 
+               onClick={() => window.location.href = '/terminal'}
+               className="px-6 py-3 bg-white text-blue-600 rounded-2xl font-black text-sm relative z-10"
+             >
+               Enter Terminal
+             </button>
           </div>
         </div>
       </div>
@@ -94,7 +100,7 @@ const DashboardHome = () => {
 };
 
 function App() {
-  const { token, isLoading, login, logout } = useAuth();
+  const { token, isLoading, login } = useAuth();
 
   if (isLoading) {
     return (
@@ -115,6 +121,7 @@ function App() {
           <DashboardLayout>
             <Routes>
               <Route path="/" element={<DashboardHome />} />
+              <Route path="/terminal" element={<Terminal />} />
               <Route path="/chat" element={<ChatInterface />} />
               <Route path="/academics" element={<div className="p-8"><h2 className="text-2xl font-bold underline decoration-blue-500 underline-offset-8">Academic Hub</h2><p className="mt-8 text-zinc-500 italic">Course materials and syllabus coming soon...</p></div>} />
               <Route path="/attendance" element={<div className="p-8"><h2 className="text-2xl font-bold underline decoration-purple-500 underline-offset-8">Attendance Metrics</h2><p className="mt-8 text-zinc-500 italic">High-fidelity visualization syncing with Vitarn...</p></div>} />

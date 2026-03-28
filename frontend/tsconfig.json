@@ -19,8 +19,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noFallthroughCases_inSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "jsx": "react-jsx"
   },
   "include": ["src"]
 }
