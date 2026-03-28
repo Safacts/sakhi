@@ -6,7 +6,7 @@ from core.router import scout_router
 from core.context import context_service
 import json
 
-router = APIRouter(prefix="/chat", tags=["chat"])
+router = APIRouter(prefix="/api/chat", tags=["chat"])
 
 class ChatRequest(BaseModel):
     message: str
