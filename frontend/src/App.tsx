@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import AuthCallback from './pages/AuthCallback';
 import Terminal from './pages/Terminal';
 import { useAuth } from './context/AuthContext';
+import { ChatProvider } from './context/ChatContext';
 import DashboardLayout from './components/DashboardLayout';
 import { Sparkles, Bot } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -11,6 +12,97 @@ import ChatInterface from './components/ChatInterface';
 
 const DashboardHome = () => {
   const { user } = useAuth();
+  
+  // Role-based dashboard content
+  const getRoleSpecificContent = () => {
+    if (!user?.role) return null;
+    
+    switch(user.role) {
+      case 'student':
+        return (
+          <div className="space-y-8">
+            <div className="glass-card rounded-[40px] p-10 bg-gradient-to-br from-blue-600/5 to-transparent">
+              <h3 className="text-2xl font-black mb-8 flex items-center gap-3 italic">
+                <span className="w-1.5 h-6 bg-blue-500 rounded-full"></span>
+                Quick Actions
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onClick={() => window.location.href = '/chat'} className="p-5 rounded-3xl bg-white/5 border border-white/5 flex items-center gap-4 hover:bg-white/10 transition-all group">
+                  <span className="font-bold text-zinc-300">Check Attendance</span>
+                  <span className="text-blue-500 group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+                <button onClick={() => window.location.href = '/chat'} className="p-5 rounded-3xl bg-white/5 border border-white/5 flex items-center gap-4 hover:bg-white/10 transition-all group">
+                  <span className="font-bold text-zinc-300">My Subjects</span>
+                  <span className="text-blue-500 group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      case 'faculty':
+        return (
+          <div className="space-y-8">
+            <div className="glass-card rounded-[40px] p-10 bg-gradient-to-br from-purple-600/5 to-transparent">
+              <h3 className="text-2xl font-black mb-8 flex items-center gap-3 italic">
+                <span className="w-1.5 h-6 bg-purple-500 rounded-full"></span>
+                Faculty Tools
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onClick={() => window.location.href = '/chat'} className="p-5 rounded-3xl bg-white/5 border border-white/5 flex items-center gap-4 hover:bg-white/10 transition-all group">
+                  <span className="font-bold text-zinc-300">Generate Workbook</span>
+                  <span className="text-purple-500 group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+                <button onClick={() => window.location.href = '/chat'} className="p-5 rounded-3xl bg-white/5 border border-white/5 flex items-center gap-4 hover:bg-white/10 transition-all group">
+                  <span className="font-bold text-zinc-300">Fortnight Report</span>
+                  <span className="text-purple-500 group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      case 'college_admin':
+        return (
+          <div className="space-y-8">
+            <div className="glass-card rounded-[40px] p-10 bg-gradient-to-br from-green-600/5 to-transparent">
+              <h3 className="text-2xl font-black mb-8 flex items-center gap-3 italic">
+                <span className="w-1.5 h-6 bg-green-500 rounded-full"></span>
+                Admin Dashboard
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onClick={() => window.location.href = '/chat'} className="p-5 rounded-3xl bg-white/5 border border-white/5 flex items-center gap-4 hover:bg-white/10 transition-all group">
+                  <span className="font-bold text-zinc-300">College Statistics</span>
+                  <span className="text-green-500 group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+                <button onClick={() => window.location.href = '/chat'} className="p-5 rounded-3xl bg-white/5 border border-white/5 flex items-center gap-4 hover:bg-white/10 transition-all group">
+                  <span className="font-bold text-zinc-300">Attendance Thresholds</span>
+                  <span className="text-green-500 group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      case 'superuser':
+        return (
+          <div className="space-y-8">
+            <div className="glass-card rounded-[40px] p-10 bg-gradient-to-br from-red-600/5 to-transparent">
+              <h3 className="text-2xl font-black mb-8 flex items-center gap-3 italic">
+                <span className="w-1.5 h-6 bg-red-500 rounded-full"></span>
+                Super Admin Console
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onClick={() => window.location.href = '/chat'} className="p-5 rounded-3xl bg-white/5 border border-white/5 flex items-center gap-4 hover:bg-white/10 transition-all group">
+                  <span className="font-bold text-zinc-300">Platform Statistics</span>
+                  <span className="text-red-500 group-hover:translate-x-1 transition-transform">→</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="p-10 space-y-12 max-w-7xl mx-auto">
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -18,7 +110,9 @@ const DashboardHome = () => {
            <h2 className="text-4xl font-black text-white tracking-tighter mb-2">
              Welcome back, <span className="text-blue-500">{user?.name?.split(' ')[0]}</span>
            </h2>
-           <p className="text-zinc-500 font-bold uppercase tracking-[0.2em] text-[10px]">Aacharya Node Session ID: {Math.random().toString(36).substring(7).toUpperCase()}</p>
+           <p className="text-zinc-500 font-bold uppercase tracking-[0.2em] text-[10px]">
+             Role: <span className="text-blue-500">{user?.role}</span> // Aacharya Node Session ID: {Math.random().toString(36).substring(7).toUpperCase()}
+           </p>
         </div>
         <div className="flex gap-4">
            <div className="glass-card px-6 py-3 rounded-2xl flex items-center gap-3">
@@ -29,68 +123,17 @@ const DashboardHome = () => {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-           <div className="glass-card rounded-[40px] p-10 bg-gradient-to-br from-blue-600/5 to-transparent">
-              <h3 className="text-2xl font-black mb-8 flex items-center gap-3 italic">
-                <span className="w-1.5 h-6 bg-blue-500 rounded-full"></span>
-                Academic Pulse
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                 {[
-                   { label: 'Engineering Physics', grade: 'A+', color: 'text-blue-400', bg: 'bg-blue-400/10' },
-                   { label: 'Network Architecture', grade: 'B', color: 'text-purple-400', bg: 'bg-purple-400/10' },
-                   { label: 'Data Ethics', grade: 'A', color: 'text-green-400', bg: 'bg-green-400/10' },
-                   { label: 'Applied AI', grade: 'A', color: 'text-orange-400', bg: 'bg-orange-400/10' }
-                 ].map((course) => (
-                   <div key={course.label} className="p-5 rounded-3xl bg-white/5 border border-white/5 flex justify-between items-center group hover:bg-white/10 transition-all cursor-pointer">
-                      <span className="font-bold text-zinc-300">{course.label}</span>
-                      <span className={`w-10 h-10 rounded-xl ${course.bg} ${course.color} flex items-center justify-center font-black text-sm`}>{course.grade}</span>
-                   </div>
-                 ))}
-              </div>
-           </div>
-
-           <div className="glass-card rounded-[40px] p-10 bg-gradient-to-br from-purple-600/5 to-transparent">
-              <h3 className="text-xl font-bold mb-4">Upcoming Milestones</h3>
-              <div className="space-y-4 pt-4">
-                 <div className="flex gap-6 items-center">
-                    <div className="text-center w-12 shrink-0">
-                       <p className="text-blue-500 font-black text-xl leading-none">28</p>
-                       <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">March</p>
-                    </div>
-                    <div className="flex-grow">
-                       <p className="font-bold text-white">System Architecture Submission</p>
-                       <p className="text-xs text-zinc-500">Node Sync Required // 23:59 IST</p>
-                    </div>
-                    <div className="w-24 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
-                       <div className="h-full bg-blue-600 w-3/4"></div>
-                    </div>
-                 </div>
-              </div>
-           </div>
+        <div className="lg:col-span-2">
+          {getRoleSpecificContent()}
         </div>
 
         <div className="space-y-8">
-          <div className="glass-card rounded-[40px] p-10 text-center flex flex-col items-center justify-center aspect-square relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-b from-blue-600/10 to-transparent"></div>
-            <div className="relative z-10">
-              <div className="w-32 h-32 rounded-full border-[8px] border-blue-500/10 border-t-blue-500 mx-auto flex items-center justify-center mb-6 shadow-[0_0_60px_rgba(59,130,246,0.2)]">
-                <span className="text-4xl font-black text-white">88<span className="text-blue-500 text-xl">%</span></span>
-              </div>
-              <h4 className="text-lg font-black text-white tracking-tight">Average Attendance</h4>
-              <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-2 px-4 py-1.5 bg-white/5 rounded-full inline-block">Sync with Vitarn v2.4</p>
-            </div>
-          </div>
-          
-          <div className="glass-card rounded-[40px] p-8 bg-blue-600 group hover:bg-blue-500 cursor-pointer overflow-hidden relative transition-all shadow-[0_30px_60px_-15px_rgba(59,130,246,0.3)]">
+          <div className="glass-card rounded-[40px] p-8 bg-blue-600 group hover:bg-blue-500 cursor-pointer overflow-hidden relative transition-all shadow-[0_30px_60px_-15px_rgba(59,130,246,0.3)]" onClick={() => window.location.href = '/chat'}>
              <Bot className="absolute -right-4 -bottom-4 w-32 h-32 opacity-10 group-hover:scale-110 transition-transform" />
-             <h3 className="text-xl font-black text-white mb-2 relative z-10">Need Assistance?</h3>
-             <p className="text-white/70 text-sm font-medium relative z-10 mb-6">Sakhi AI is synced with your course syllabus.</p>
-             <button 
-               onClick={() => window.location.href = '/terminal'}
-               className="px-6 py-3 bg-white text-blue-600 rounded-2xl font-black text-sm relative z-10"
-             >
-               Enter Terminal
+             <h3 className="text-xl font-black text-white mb-2 relative z-10">Chat with Sakhi</h3>
+             <p className="text-white/70 text-sm font-medium relative z-10 mb-6">Ask questions, generate reports, or get assistance.</p>
+             <button className="px-6 py-3 bg-white text-blue-600 rounded-2xl font-black text-sm relative z-10">
+               Open Chat
              </button>
           </div>
         </div>
@@ -118,15 +161,17 @@ function App() {
         <Route path="*" element={<Navigate to="/login" replace />} />
       ) : (
         <Route path="*" element={
-          <DashboardLayout>
-            <Routes>
-              <Route path="/" element={<DashboardHome />} />
-              <Route path="/terminal" element={<Terminal />} />
-              <Route path="/chat" element={<ChatInterface />} />
-              <Route path="/academics" element={<div className="p-8"><h2 className="text-2xl font-bold underline decoration-blue-500 underline-offset-8">Academic Hub</h2><p className="mt-8 text-zinc-500 italic">Course materials and syllabus coming soon...</p></div>} />
-              <Route path="/attendance" element={<div className="p-8"><h2 className="text-2xl font-bold underline decoration-purple-500 underline-offset-8">Attendance Metrics</h2><p className="mt-8 text-zinc-500 italic">High-fidelity visualization syncing with Vitarn...</p></div>} />
-            </Routes>
-          </DashboardLayout>
+          <ChatProvider token={token}>
+            <DashboardLayout>
+              <Routes>
+                <Route path="/" element={<DashboardHome />} />
+                <Route path="/terminal" element={<Terminal />} />
+                <Route path="/chat" element={<ChatInterface />} />
+                <Route path="/academics" element={<div className="p-8"><h2 className="text-2xl font-bold underline decoration-blue-500 underline-offset-8">Academic Hub</h2><p className="mt-8 text-zinc-500 italic">Course materials and syllabus coming soon...</p></div>} />
+                <Route path="/attendance" element={<div className="p-8"><h2 className="text-2xl font-bold underline decoration-purple-500 underline-offset-8">Attendance Metrics</h2><p className="mt-8 text-zinc-500 italic">High-fidelity visualization syncing with Vitarn...</p></div>} />
+              </Routes>
+            </DashboardLayout>
+          </ChatProvider>
         } />
       )}
 

@@ -8,9 +8,11 @@ services:
     ports:
       - "3005:5173"
     environment:
-      - VITE_API_URL=https://sakhi.jnwn.xyz/api
+      - VITE_API_URL=http://localhost:8005/api
     networks:
       - sakhi_net
+    depends_on:
+      - backend
 
   backend:
     build:
@@ -18,12 +20,18 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8005:8000"
-    volumes:
-      - ./backend:/app
     environment:
-      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - AACHARYA_CLIENT_ID=${AACHARYA_CLIENT_ID:-SAKHI_CLIENT}
+      - AACHARYA_CLIENT_SECRET=${AACHARYA_CLIENT_SECRET:-SAKHI_SECRET_CHANGE_ME_123}
+      - AACHARYA_BASE_URL=${AACHARYA_BASE_URL:-https://jnwn.xyz}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3005}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+    env_file:
+      - ./backend/.env
     networks:
       - sakhi_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 networks:
   sakhi_net:
