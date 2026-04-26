@@ -5,6 +5,7 @@ from core.ollama import ollama_client
 from core.router import scout_router
 from core.context import context_service
 from core.tools import agentic_tools
+from core.tool_registry import get_tools_prompt
 import json
 import logging
 
@@ -56,26 +57,18 @@ async def ask(request: ChatRequest):
     # Role-specific system prompt
     role_prompts = {
         "student": "You are Sakhi, a helpful AI assistant for Aacharya College students. You can help with attendance queries, subject information, and general academic guidance.",
-        "faculty": "You are Sakhi, an agentic AI assistant for Aacharya College faculty. You can generate workbooks, fortnight reports, and help with administrative tasks. When a user asks for a report, you should identify the tool needed and parameters.",
+        "faculty": "You are Sakhi, an agentic AI assistant for Aacharya College faculty. You can help with administrative tasks, generate reports, and manage class data.",
         "college_admin": "You are Sakhi, an administrative AI assistant for Aacharya College admins. You can provide college-wide statistics, attendance reports, and help with management decisions.",
         "superuser": "You are Sakhi, a platform-wide AI assistant for Aacharya super admins. You have access to all platform data and analytics."
     }
     
     system_prompt = role_prompts.get(user_role, role_prompts["student"])
     
-    # Add tool availability info for faculty/admin
-    if user_role in ["faculty", "college_admin", "superuser"]:
-        system_prompt += "\n\nAVAILABLE TOOLS:\n"
-        if user_role == "faculty":
-            system_prompt += "- generate_workbook: Generate attendance workbook for a branch/year/sem\n"
-            system_prompt += "- generate_fortnight_report: Generate fortnight attendance report\n"
-        elif user_role == "college_admin":
-            system_prompt += "- get_college_stats: Get college-wide statistics\n"
-            system_prompt += "- get_attendance_thresholds: Get students below 75%/65% attendance\n"
-            system_prompt += "- get_faculty_attendance_status: Check faculty submission status\n"
-        elif user_role == "superuser":
-            system_prompt += "- get_platform_stats: Get platform-wide statistics\n"
-        system_prompt += "\nWhen you need to use a tool, output in this format: TOOL_CALL: {\"tool_name\": \"...\", \"params\": {...}}"
+    # Add tool availability info from registry
+    tools_prompt = get_tools_prompt(user_role)
+    if tools_prompt and user_role in ["faculty", "college_admin", "superuser"]:
+        system_prompt += f"\n\n{tools_prompt}"
+        system_prompt += "\n\nWhen you need to use a tool, output in this format: TOOL_CALL: {\"tool_name\": \"...\", \"params\": {...}}"
     
     if academic_context:
         system_prompt += f"\n\nCURRENT USER CONTEXT:\n{academic_context}\nUse this data to answer personalized questions accurately."
